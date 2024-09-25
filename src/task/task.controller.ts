@@ -1,7 +1,8 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Body, UsePipes, ValidationPipe, Get, Param, Delete, Patch } from '@nestjs/common';
 import { TaskService } from './task.service';
-import { CreateTaskDto } from './task.dto';
+import { CreateTaskDto } from './dtos/task.dto';
 import { Task } from './entidades/task.entity';
+import { UpdateTaskDto } from './dtos/updateTask.dto';
 
 //isso lida com as requisicoes
 
@@ -13,5 +14,28 @@ export class TaskController {
     @UsePipes(new ValidationPipe({ transform: true })) // transformação e validação
     async create(@Body() taskData: CreateTaskDto): Promise<Task> {
         return this.taskService.create(taskData); // chama servico
+    }
+
+    @Get()
+    async find(): Promise<Task[]> {
+        return this.taskService.find();
+    }
+
+    @Get(':id')
+    async findById(@Param('id') id: number): Promise<Task> {
+        return this.taskService.findById(id);
+    }
+
+    @Delete(':id')
+    async deleteById(@Param('id') id: number): Promise<{ message: string }> {
+        await this.taskService.deleteById(id);
+        console.log(`A tarefa com ID ${id} foi deletada`);
+        return { message: `A tarefa com ID ${id} foi deletada` };
+    }
+
+    @Patch(':id') 
+    @UsePipes(new ValidationPipe({ transform: true })) // transformação e validação
+    async update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto): Promise<Task> {
+        return this.taskService.update(id, updateTaskDto); 
     }
 }
