@@ -6,7 +6,7 @@ export class Task {
   id: number; 
 
   @Column({ length: 30 })
-  name: string; 
+  title: string; 
 
   @Column({
     type: 'enum',

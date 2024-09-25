@@ -1,6 +1,6 @@
-import { IsString, IsEnum, IsNotEmpty } from 'class-validator';
+import { IsString, IsEnum, IsNotEmpty} from 'class-validator';
 
-export class CreateTaskDto {
+export class UpdatePutTaskDto {
   @IsString({message: "o title deve ser uma string"})
   @IsNotEmpty({message: "o title nao pode estar vazio"})
   title: string;

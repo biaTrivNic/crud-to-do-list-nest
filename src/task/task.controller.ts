@@ -1,8 +1,9 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe, Get, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Post, Body, UsePipes, ValidationPipe, Get, Param, Delete, Patch, Put } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dtos/task.dto';
 import { Task } from './entidades/task.entity';
 import { UpdateTaskDto } from './dtos/updateTask.dto';
+import { UpdatePutTaskDto } from './dtos/updatePutTask.dto';
 
 //isso lida com as requisicoes
 
@@ -38,4 +39,11 @@ export class TaskController {
     async update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto): Promise<Task> {
         return this.taskService.update(id, updateTaskDto); 
     }
+
+    @Put(':id') 
+    @UsePipes(new ValidationPipe({ transform: true })) 
+    async putUpdate(@Param('id') id: number, @Body() updatePutTaskDto: UpdatePutTaskDto): Promise<Task> {
+        return this.taskService.update(id, updatePutTaskDto); 
+    }
+
 }
